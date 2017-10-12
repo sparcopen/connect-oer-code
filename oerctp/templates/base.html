@@ -1,0 +1,277 @@
+{% load staticfiles i18n compress%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Connect OER - SPARC{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+    {# begin: icons and tiles from #sparcopen.org #}
+    <link rel="icon" href="/static/images/cropped-sparc-fav-ico-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/static/images/cropped-sparc-fav-ico-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="/static/images/cropped-sparc-fav-ico-180x180.png" />
+    <meta name="msapplication-TileImage" content="/static/images/cropped-sparc-fav-ico-270x270.png" />
+    {# end #}
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    {% block css %}
+    <!-- Latest compiled and minified Bootstrap 4 Alpha 4 CSS -->
+    {# todo: is twitter boostrap needed? <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">#}
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    {% compress css %}
+    <!-- This file stores project-specific CSS -->
+    <link href="{% static 'css/sparcopen.css' %}" rel="stylesheet">
+    <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    {% endcompress %}
+    <style> {# #todo -- consider moving to an external stylesheet #}
+      .container-fluid { margin-top: -1px; } {# fix error from original stylesheet #}
+
+      ul { list-style-type: none; } {# no bullet points next to checkboxes #}
+      a { color: #d92c35; }
+      a:hover { color: #353535; text-decoration: none; }
+      a:visited { color: #d92c35; text-decoration: none; }
+      a:focus { color: #353535; text-decoration: none; }
+      a:active { color: #353535; text-decoration: none; }
+      .alert { padding-top: 40px; padding-left: 30px; padding-right: 25px; padding-bottom: 20px; margin-bottom: 30px; color: #ffffff; font-family: roboto, sans-serif; }
+      .alert-success { background-color: #1f2222; color: #ffffff; }
+      .alert-success h4 { color: #d92c35; font-size: 175%; padding-bottom: 8px; }
+      .alert-success p { color: #ffffff; font-family: roboto, sans-serif; }
+      .alert-success a { font-weight: medium; }
+      .errorlist { background-color: #eeeeee; color: red; } {# make error messages more visible #}
+      .details-abstract p {font-family: "PT Serif", serif}
+      .details-profile ul {font-family: roboto, sans-serif; color: #353535; margin-left: -20px;}
+      .details-profile p {font-family: roboto, sans-serif}
+      .details-profile li::before {content: "▪"; color: #d92c35; padding-right: 4px;}
+      .form-row { margin-bottom: 40px; font-family: roboto, sans-serif; } {# whitespace between form questions #}
+      .form-row label { display: inline; } {# override `display: inline-block` value set elsewhere, so that multi-line labels appear to the right of the question number, not below it #}
+      .form-row ul { margin-top: 6px; } {# add whitespace between question's help text and list of options #}
+      .form-row ul li label { font-weight: normal; } {# checkbox items should not be bold #}
+      .form-row textarea { width:70%; height: 6em; margin-top: 6px; }
+      .form-row input[type=url] { width:70%; margin-top: 6px; }
+      .form-row input[type=text],[type=number],[type=email] { width:30%; margin-top: 6px; }
+      #id_private_comments { width: 70%; height: 3em; }
+      .form-text p { font-family: roboto, sans-serif; }
+      .form-link label label_tag { font-weight: normal; }
+      .container h1 { font-weight: bold; }
+      .profile-header { font-weight: 400; }
+      .red-line  { width: 100%; margin-bottom: 30px; border-top: 1px solid #d92c35; display:none; } {# #todo -- decide whether to completely hide the red line or just make it narrower #}
+      .sparc-member { border-radius: 3px; font-family: roboto, sans-serif; font-size: 20px; color: #ffffff; background-color: #d92c35; font-weight: bold; border: 2px solid #d92c35; font-size: 110%; padding: 2px;}
+      .submit-button  { margin-top: 20px; margin-bottom: 10px; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; border-radius: 2px; font-family: roboto, sans-serif; font-size: 20px; color: #ffffff; background-color: #d92c35; font-weight: bold; border: 2px solid #d92c35; text-transform: uppercase; }
+      .submit-button:hover { background-color: #353535; border: 2px solid #353535; }
+      .red-button { color: #ffffff; background-color: #d92c35; border-radius: 2px; border: solid 2px #d92c35; font-family: roboto, sans-serif; }
+      .red-button:hover { background-color: #353535; border: solid 2px #353535 }
+      .filter-button { padding-right: 15px; padding-left: 15px; padding-top: 6px; padding-bottom: 6px; border-radius: 2px; font-family: roboto, sans-serif; font-size: 17px; color: #ffffff; background-color: #d92c35; font-weight: bold; border: 2px solid #d92c35; text-transform: uppercase;  }
+      .filter-button a { color: #ffffff; }
+      .filter-button:hover { background-color: #353535; border: 2px solid #353535; }
+      .activity-button { padding-right: 15px; padding-left: 15px; padding-top: 6px; padding-bottom: 6px; border-radius: 2px; font-family: roboto, sans-serif; font-size: 16px; background-color: #ffffff; font-weight: 500; border: 2px solid #d92c35; text-transform: uppercase; width: 9em; text-align: center; margin-bottom: .5em; margin-right: .5em }
+      .activity-button a { color: #353535; }
+      .activity-button:hover a { color: #ffffff; }
+      .activity-button:hover { background-color: #d92c35; border: 2px solid #d92c35; }
+      .search-results {font-family: roboto, sans-serif; margin-left: -35px;}
+      .table-button { padding-top: 5px; border: outset 2px #d2d2d2; background-color: #e8e8e8; border-radius: 2px; color: #1f2222;}
+      .table-button:hover { color: #d92c35; }
+      {# formatting for form_program.html (used in "program strategy" table) #}
+      table thead tr th { padding-left: 20px; padding-right: 20px; padding-bottom: 5px; } {# column headers: primary, secondary, n/a #}
+      table tbody tr th label { display: block; text-align: left; } {# left-align row headers #}
+      table tbody tr td { text-align: center; border: solid 1px #e8e8e8; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px; font-size: 90%; } {# center radio buttons, add in borders #}
+
+      {# 2017-05-30`12:59:32 -- styles for filters #}
+      input[type="checkbox"]{ width: 20px; height: 20px; }
+      .form-row ul li label input { display: inline; }
+      .form-row div ul li label input { display: inline; }
+
+      {% comment %}/*
+          hide input field options with nine dashes (---------)
+          there is a nicer way to do this in Django ("empty_label=None") but it does not seem to work
+          # #todo -- fix this with a cleaner solution
+          FYI: it is not possible to select a parent selector directly, so `li label[for=...]` is used
+               details: https://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector
+          FYI: we are in fact hiding every input ending matching "id_*_0"
+      */{% endcomment %}
+
+      {# INSTITUTIONAL PROFILE #}
+      li label[for=id_poc_visibility_0] { display: none; }
+      li label[for=id_taskforce_0] { display: none; }
+      li label[for=id_staff_0] { display: none; }
+      li label[for=id_oerdegree_offered_0] { display: none; }
+
+      {# PROGRAM #}
+      li label[for=id_type_0] { display: none; }
+      li label[for=id_home_0] { display: none; }
+      li label[for=id_scope_0] { display: none; }
+      li label[for=id_financial_sustainability_0] { display: none; }
+      li label[for=id_incentives_conditions_0] { display: none; }
+
+      {# POLICY #}
+      li label[for=id_policy_type_0] { display: none; }
+      li label[for=id_scope_0] { display: none; }
+      li label[for=id_policy_level_0] { display: none; }
+      li label[for=id_policy_definition_0] { display: none; }
+
+      {# EVENT #}
+      li label[for=id_scope_0] { display: none; }
+
+      {# RESOURCE #}
+      li label[for=id_scope_0] { display: none; }
+
+      {# Annual impact report: nothing to fix #}
+      {# Language: nothing to fix #}
+
+      {# following #css reworked from https://web.archive.org/web/20170418133801/https://html5doctor.com/the-details-and-summary-elements/ -> https://jsbin.com/egefop/15/edit #}
+      {# more pure-css solutions here: https://stackoverflow.com/questions/15095933/pure-css-collapse-expand-div #}
+      {# fyi: may not work properly in all browsers, see http://caniuse.com/#feat=details #}
+      {# #todo -- consider adding MSIE support: http://tyleruebele.com/weblog/details-shim + https://github.com/tyleruebele/details-shim #}
+      details summary {font-family: roboto, sans-serif; font-size: 110%; }
+      details {border: 1px solid #fcfcfc; border-radius: 5px; box-shadow: 0 1px 2px rgba(0, 0, 0, .5); margin: 0 0 .4em; padding: 1%; }
+      details[open] {background: #fcfcfc; }
+      summary {background: #fcfcfc; border-radius: 5px; cursor: pointer; margin: -1%; padding: 8px 0; position: relative; font-weight: bold; overflow: hidden; }
+      summary:hover, details[open] summary {background: #f6f6f6;}
+      summary::-webkit-details-marker {display: none}
+      summary:before{border-radius: 5px; content: "+"; color: #363636; display: block; float: left; font-size: 1.2em; font-weight: bold; margin: -2px 10px 0 10px; padding: 0; text-align: center; width: 20px;}
+      summary:after{content: "(click/tap to expand)"; color: #dddddd; display: block; float: right; margin-right: 20px; }
+      details[open] summary:before {content: "-"; margin-top: -4px;}
+      details[open] summary {margin-bottom: 20px;}
+
+      {# 2017-06-06`13:38:24 -- fix CSS bug inherited from original SPARC template -- without this, the expanded hamburger menu on a narrow screen overlapped with page content -- FYI: #1F2222 found using color picker #}
+      div#sparc-navbar-collapse-1 ul li { background: #1F2222; z-index: 9999; }
+
+      {# .page-topper section copied from https://sparcopen.org/wp-content/themes/wideeyecreative/build/style.min.css and cleaned up using http://unminify.com/ #}
+      .page-topper {
+          color: #fff;
+          height: auto;
+          padding-top: 65px;
+          padding-bottom: 35px;
+          background-color: #da2c35;
+          background: #da2c35 url(https://sparcopen.org/wp-content/themes/wideeyecreative/images/red_pattern.png) repeat;
+      }
+
+      .page-topper h6 {
+          font-size: 13px; font-weight: bold; font-family: roboto, sans-serif; text-transform: uppercase;
+      }
+
+      .page-topper h1 {
+          font-weight: 300 !important;
+      }
+
+      .page-topper a {
+          color: #ffffff; font-size: 14px; font-weight: normal; font-family: roboto, sans-serif;
+      }
+
+      .page-topper li {
+          border: 2px solid #fff;
+          list-style: none;
+          display: inline-block;
+          width: 19%;
+          text-align: center;
+          padding-top: 12px;
+          padding-bottom: 12px;
+          margin-left: 2px;
+          margin-right: 2px;
+          margin-top: 40px;
+          overflow: hidden;
+          border-radius: 2px 2px 2px 2px;
+      }
+
+      .page-topper li a {
+          text-transform: uppercase;
+          font: normal normal 500 normal 12px / 15px roboto, sans-serif;
+      }
+
+      .page-topper li a {
+          color: inherit;
+      }
+
+      .page-topper li:hover, .page-topper li a:hover {
+          background: #fff;
+          color: #353535;
+          transition: .15s ease-in-out;
+          -moz-transition: .15s ease-in-out;
+          -webkit-transition: .15s ease-in-out;
+      }
+
+    @media only screen and (max-width: 600px) {
+      .page-topper li {
+        display: none;
+      }
+    }
+
+    </style>
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    {% include "header.html" %}
+
+    <div class="container">
+
+      {% if messages %}
+          {% for message in messages %}
+            {% if 'success' in message.tags %}
+              <div class="alert alert-success">{{ message | safe}}</div>{# "safe" allows html in messages #}
+            {% else %}
+              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endif %}
+
+          {% endfor %}
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="alert alert-error">
+          <strong>Please scroll down to fix the following error(s):</strong>
+          <ul>
+            {% for field in form %}
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  <li>{{ field.name }}: <a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+          {% if form.non_field_errors %}
+            {{ form.non_field_errors }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% block content %}
+        <h1>Connect OER</h1>
+        <p>You have reached <em>Connect OER</em>, currently in pre-launch phase.<br>If you do not have a special access link, you're welcome to visit the <a href="https://sparcopen.org/">SPARC website</a>.<br><br><span style="color:red">*</span></p>
+      {% endblock content %}
+
+    </div> <!-- /container -->
+
+    {% include "footer.html" %}
+
+    {% block modal %}{% endblock modal %}
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block javascript %}
+      <!-- Required by Bootstrap v4 Alpha 4 -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+
+      <!-- Your stuff: Third-party javascript libraries go here -->
+
+      <!-- place project specific Javascript in this file -->
+      {% compress js %}
+      <script src="{% static 'js/project.js' %}"></script>
+      {% endcompress %}
+
+    {% endblock javascript %}
+  </body>
+</html>

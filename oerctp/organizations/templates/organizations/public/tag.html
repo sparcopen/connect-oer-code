@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ object.name }}</h1>
+
+{% if object.type == "hidden" %}
+
+<p>This tag is hidden and used for internal purposes only. Please visit the <a href="/">Connect OER website</a>.</p>
+
+{% else %}
+
+    {% if object.type %}<!--<p><strong>Tag Type</strong>: {{ object.type }}</p>-->{% endif %}
+    {% if object.name %}<!--<p><strong>Tag Name</strong>: {{ object.name }}</p>-->{% endif %}
+    {% if object.slug %}<!--<p><strong>Tag Slug</strong>: {{ object.slug }}</p>-->{% endif %}
+    {% if object.description %}<p><strong>Description</strong>: {{ object.description | safe }}</p>{% endif %}
+    {% if object.first_name %}<p><strong>First Name</strong>: {{ object.first_name }}</p>{% endif %}
+    {% if object.last_name %}<p><strong>Last Name</strong>: {{ object.last_name }}</p>{% endif %}
+    {% if object.job_title %}<p><strong>Job Title</strong>: {{ object.job_title }}</p>{% endif %}
+    {% if object.department %}<p><strong>Department</strong>: {{ object.department }}</p>{% endif %}
+    {% if object.institution %}<p><strong>Institution</strong>: {{ object.institution }}</p>{% endif %}
+    {% if object.zip %}<p><strong>Postal Code</strong>: {{ object.zip }}</p>{% endif %}
+    {% if object.country %}<p><strong>Country</strong>: {{ object.country }}</p>{% endif %}
+    {# #todo -- check if e-mail address should be displayed or hidden #}
+    {# {% if object.email %}<p><strong>Email Address</strong>: {{ object.email }}</p>{% endif %} #}
+    {% if object.twitter %}<p><strong>Twitter Handle</strong>: {{ object.twitter }}</p>{% endif %}
+    {% if object.url %}<p><strong>Website</strong>: <a href="{{ object.url }}">{{ object.url }}</a></p>{% endif %}
+    {% if object.profession %}<p><strong>Profession</strong>: {{ object.profession }}</p>{% endif %}
+    {% if object.expertise %}<p><strong>Area of Expertise</strong>: {{ object.expertise }}</p>{% endif %}
+    {% if object.system_name %}<p><strong>System Name</strong>: {{ object.system_name }}</p>{% endif %}
+    {% if object.system_website %}<p><strong>System Website</strong>: {{ object.system_website }}</p>{% endif %}
+    {% if object.system_link %}<p><strong>System Link in Directory</strong>: {{ object.system_link }}</p>{% endif %}
+
+    {% if institutions %}
+        <p><strong>Institutions using this tag: </strong>
+        {% for institution in institutions %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public' institution.id %}">{{ institution }}</a>.
+            {% else %}
+                <a href="{% url 'institution_public' institution.id %}">{{ institution }}</a>,
+            {% endif %}
+        {% endfor %}
+        </p>
+    {% else %}
+        <!--<p>This tag exists but isn't used by any institution.</p>-->
+    {% endif %}
+
+    {% if programs %}
+        <p><strong>Programs using this tag: </strong>
+        {% for program in programs %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public' program.institution.id %}">{{ program.institution }}: {{ program }} ({{ program.type_directorypage }})</a>.
+            {% else %}
+                <a href="{% url 'institution_public' program.institution.id %}">{{ program.institution }}: {{ program }} ({{ program.type_directorypage }})</a>,
+            {% endif %}
+        {% endfor %}
+        </p>
+    {% else %}
+        <!--<p>This tag exists but isn't used by any program.</p>-->
+    {% endif %}
+
+    {% if policies %}
+        <p><strong>Policies using this tag: </strong>
+        {% for policy in policies %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public' policy.institution.id %}">{{ policy.institution }}: {{ policy }} ({{ policy.policy_type_directorypage }})</a>.
+            {% else %}
+                <a href="{% url 'institution_public' policy.institution.id %}">{{ policy.institution }}: {{ policy }} ({{ policy.policy_type_directorypage }})</a>,
+            {% endif %}
+        {% endfor %}
+        </p>
+    {% else %}
+        <!--<p>This tag exists but isn't used by any policy.</p>-->
+    {% endif %}
+
+    {% if events %}
+        <p><strong>Events using this tag: </strong>
+        {% for event in events %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public' event.institution.id %}">{{ event.institution }}: {{ event }} ({{ event.type_directorypage }})</a>.
+            {% else %}
+                <a href="{% url 'institution_public' event.institution.id %}">{{ event.institution }}: {{ event }} ({{ event.type_directorypage }})</a>,
+            {% endif %}
+        {% endfor %}
+        </p>
+    {% else %}
+        <!--<p>This tag exists but isn't used by any event.</p>-->
+    {% endif %}
+
+    {% if resources %}
+        <p><strong>Resources using this tag: </strong>
+        {% for resource in resources %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public' resource.institution.id %}">{{ resource.institution }}: {{ resource }} ({{ resource.type_directorypage_string }})</a>.
+            {% else %}
+                <a href="{% url 'institution_public' resource.institution.id %}">{{ resource.institution }}: {{ resource }} ({{ resource.type_directorypage_string }})</a>,
+            {% endif %}
+        {% endfor %}
+        </p>
+    {% else %}
+        <!--<p>This tag exists but isn't used by any resource.</p>-->
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

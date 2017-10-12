@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<h1>Search for Abstracts</h1>
+
+<p><strong>How to use this</strong>: you can drill down to more specific results using this tool. You can filter by multiple fields, they will be linked by "AND" condition. In other words, only items displaying *all* the criteria will be displayed. Once you select your criteria, click the "Search" button.</p>
+<p>For additional search options, go back to the <a href="/directory">Connect OER Directory</a>.</p>
+<br>
+
+<form method="get">
+
+    <details open="open">
+
+    <summary>Search Options</summary>
+
+      <div class="form-row">
+        {{ filter.form.language.label_tag }}
+        {% render_field filter.form.language class="form-control" %}
+      </div>
+
+    </details>
+
+    <br><br>
+
+    <button type="submit" class="filter-button"><span class="glyphicon glyphicon-search"></span>Search</button>
+    <button class="filter-button"><a href="{% url 'filter_abstracts' %}">Start Over</a></button>
+
+</form>
+
+<br><br>
+<h2>Search Results</h2>
+<ul class="search-results">
+{% for filteritem in filter.qs %}
+  <li><a href="{% url 'institution_public' filteritem.institution_id %}">{{ filteritem.institution }} ({{ filteritem.name }})</a></li>
+{% empty %}
+  <li>No matching results found</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

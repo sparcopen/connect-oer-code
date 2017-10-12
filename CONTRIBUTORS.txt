@@ -1,0 +1,6 @@
+Contributors to this project:
+
+- Brady Yano and Nicole Allen - project owners, data model designers.
+- Zoltan Onody - back-end architecture, senior developer.
+- Jan Gondol - primary maintainer and developer.
+- Krystof Kiss - TagAdmin contributor.

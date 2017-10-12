@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<h1>Search for Programs</h1>
+
+<p>Connect OER is a platform to share and discover information about OER activities at campuses across North America. Use the tools below to search for institutions with specific types of OER programs. Alternatively, click the buttons below to search by other options. </p>
+<p style="padding-top: 10px">
+    <button class="activity-button"><a href="/directory">Institutions</a></button>
+    <button class="activity-button"><a href="{% url 'filter_policies' %}">Policies</a></button>
+    <button class="activity-button"><a href="{% url 'filter_events' %}">Events</a></button>
+    <button class="activity-button"><a href="{% url 'filter_resources' %}">Resources</a></button>
+    {#<button class="activity-button"><a href="{% url 'filter_abstracts' %}">Languages</a></button>#}
+</p>
+<hr>
+<br>
+
+<form method="get">
+
+    <details>
+
+    <summary>Program Type</summary>
+
+      <div class="form-row">
+        {{ filter.form.program_type.label_tag }}
+        {% render_field filter.form.program_type class="form-control" %}
+      </div>
+
+      <div class="form-row">
+        {{ filter.form.home.label_tag }}
+        {% render_field filter.form.home class="form-control" %}
+      </div>
+    </details>
+    
+    <details>
+    
+    <summary>Incentives and Funding</summary>
+
+      <div class="form-row">
+        {{ filter.form.incentives_conditions.label_tag }}
+        {% render_field filter.form.incentives_conditions class="form-control" %}
+      </div>
+
+      <div class="form-row">
+        <label for="id_funding_min">Total Funding:</label>
+        {#{{ filter.form.funding_total.label_tag }}#}
+        <p>Enter minimum value and maximum value (in local currency, e.g. USD or CAD).
+        <div style="display: flex;">
+          <span style="padding: 20px 10px 0px 0px;">Between</span>
+          {% render_field filter.form.funding_min class="form-control" %}
+          <span style="padding: 20px 10px 0px 10px;">and</span>
+          {% render_field filter.form.funding_max class="form-control" %}
+        </div>
+      </div>
+
+    </details>
+
+    <details>{# collapsed by default, i.e. without `open="open"` #}
+
+    <summary>Experimental Options</summary>
+
+      <p>The search options below are experimental.</p>
+
+      <div class="form-row">
+        {{ filter.form.funding_source.label_tag }}
+        {% render_field filter.form.funding_source class="form-control" %}
+      </div>
+
+      <div class="form-row">
+        {{ filter.form.incentives.label_tag }}
+        {% render_field filter.form.incentives class="form-control" %}
+      </div>
+
+    </details>
+
+    <br>
+    <ul class="search-results">
+    {% for filteritem in filter.qs %}
+    <li><a href="{% url 'institution_public' filteritem.institution_id %}">{{ filteritem.name }} ({{ filteritem.institution }})</a></li>
+    {% empty %}
+    <li>No matching results found</li>
+    {% endfor %}
+</ul>
+    <br>
+
+    <button type="submit" class="filter-button"><span class="glyphicon glyphicon-search"></span>Search</button>
+    <button class="filter-button"><a href="{% url 'filter_programs' %}">Start Over</a></button>
+
+</form>
+
+<br><br>
+
+{% endblock %}

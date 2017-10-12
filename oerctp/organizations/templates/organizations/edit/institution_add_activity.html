@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Add New Campus Activity</h1>
+    
+    <div class="red-line"></div>
+    
+    <p>Please select the category below that best describes the activity you would like to add. For further information on how to cateogorize activities, please see our <a href="https://sparcopen.org/our-work/connect-oer/faq/#activities" target="_blank">FAQ</a>.</p>
+
+    <h2>Program</h2>
+    <p>Programs include any project, initiative, or other organized effort on your campus that relate to OER. Common types of programs include OER mini-grant programs, pilot programs, campaigns, or publishing efforts. This category is also the best place to list a task force, committee or staff position.</p>
+    <strong><a href="{% url 'add_access' object.access_uuid 'program' %}" target="_blank"><button class="red-button">Add New Program</button></a></strong>
+
+    <div class="verticalgap" style="height:30px"></div>
+
+    <h2>Policy</h2>
+    <p>For the purposes of this effort, policies include any kind of formal statement of a rule, position, process or plan about OER on your campus. This may include formal policies such as intellectual property or tenure and promotion rules, faculty senate resolutions, strategic plans, or processes for marking OER in the course catalog.</p>
+    <strong><a href="{% url 'add_access' object.access_uuid 'policy' %}" target="_blank"><button class="red-button">Add New Policy</button></a></strong>
+
+    <div class="verticalgap" style="height:30px"></div>
+
+    <h2>Event</h2>
+    <p>Events are one-time actions such as workshops, talks, conferences, or presentations about OER that were organized at or by your institution. Events generally do not include off-campus events you have attended. You may include future events if you wish, although the primary purpose is to track past events.</p>
+    <strong><a href="{% url 'add_access' object.access_uuid 'event' %}" target="_blank"><button class="red-button">Add New Event</button></a></strong>
+
+    <div class="verticalgap" style="height:30px"></div>
+
+    <h2>Resource</h2>
+    <p>Resources include any type of document, website, article or tool that relates to OER action on campus. This may include LibGuides, slide decks, videos, search tools, or flyers. Please DO NOT list individual OER in this section. We recommend sharing your campus's OER through a repository intended for that purpose, such as OER Commons or Connexions.</p>
+    <strong><a href="{% url 'add_access' object.access_uuid 'resource' %}" target="_blank"><button class="red-button">Add New Resource</button></a></strong>
+
+{% endblock %}

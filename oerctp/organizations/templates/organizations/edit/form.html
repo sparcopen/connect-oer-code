@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    {% if form_template_path %}
+        {% include form_template_path %}
+    {% else %}
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button>Submit</button>
+        </form>
+    {% endif %}
+
+{% endblock %}

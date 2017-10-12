@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}{# django-widget-tweaks needs to be in #requirements.txt + enabled in settings.py -- provides "render_field" #templatetag #}
+{% block content %}
+
+<h1>Connect OER Directory</h1>
+
+<p>Connect OER is a platform to share and discover information about OER activities at campuses across North America. Use the tools below to search for institutions listed in the directory. Simply expand the menus to access search criteria and refine your results. Alternatively, click the buttons below to search by OER activities on campus. </p>
+<p style="padding-top: 10px">
+    <button class="activity-button"><a href="{% url 'filter_programs' %}">Programs</a></button>
+    <button class="activity-button"><a href="{% url 'filter_policies' %}">Policies</a></button>
+    <button class="activity-button"><a href="{% url 'filter_events' %}">Events</a></button>
+    <button class="activity-button"><a href="{% url 'filter_resources' %}">Resources</a></button>
+    {#<button class="activity-button"><a href="{% url 'filter_abstracts' %}">Languages</a></button>#}
+</p>
+<hr>
+<br>
+<h2 style="padding-bottom: 15px; padding-top: 10px;">Institution Search</h2>
+
+<form method="get">
+
+    <details>
+
+    <summary>Name</summary>
+
+      <div class="form-row">
+        {{ filter.form.name.label_tag }}
+        {% render_field filter.form.name class="form-control" style="width:30%" %}
+      </div>
+      
+     <div class="form-row">
+        {{ filter.form.system_source_id.label_tag }}
+        {% render_field filter.form.system_source_id class="form-control" %}
+      </div>
+
+    </details>
+
+    <details>
+
+    <summary>Characteristics</summary>
+
+      <div class="form-row">
+        {{ filter.form.size.label_tag }}
+        {% render_field filter.form.size class="form-control"%}
+      </div>
+
+       <div class="form-row">
+        {{ filter.form.level.label_tag }}
+        {% render_field filter.form.level class="form-control" %}
+      </div>
+
+       <div class="form-row">
+        {{ filter.form.control.label_tag }}
+        {% render_field filter.form.control class="form-control" %}
+      </div>
+
+       <div class="form-row">
+        {{ filter.form.carnegie.label_tag }}
+        {% render_field filter.form.carnegie class="form-control" %}
+      </div>
+
+    </details>
+
+    <details>
+
+    <summary>Location</summary>
+
+      <div class="form-row">
+        {{ filter.form.country.label_tag }}
+        {% render_field filter.form.country class="form-control" style="width:30%" %}
+      </div>
+
+      <div class="form-row">
+        {{ filter.form.state_province.label_tag }}
+        <div style="display: block">
+        {% render_field filter.form.state_province class="form-control" %}
+        </div>
+      </div>
+
+     <div class="form-row">
+        {{ filter.form.city.label_tag }}
+        {% render_field filter.form.city class="form-control" style="width:30%" %}
+      </div>
+
+        <div class="form-row">
+        {{ filter.form.congressional_district.label_tag }}
+        {% render_field filter.form.congressional_district class="form-control" %}
+      </div>
+
+    </details>
+
+    <br>
+    {% if request.GET %}
+    <ul class="search-results">
+    {% for filteritem in filter.qs %}
+    <li><a href="{% url 'institution_public' filteritem.id %}">{{ filteritem.name }}</a></li>
+    {% empty %}
+    <li>No matching results found</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <br>
+
+    <button type="submit" class="filter-button"><span class="glyphicon glyphicon-search"></span>Search</button>
+    <button class="filter-button"><a href="{% url 'filter_institutions' %}">Start Over</a></button>
+
+</form>
+
+<br>
+
+
+
+{% endblock %}

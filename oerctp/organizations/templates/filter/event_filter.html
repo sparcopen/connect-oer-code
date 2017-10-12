@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<h1>Search for OER Events</h1>
+
+<p>Connect OER is a platform to share and discover information about OER activities at campuses across North America. Use the tools below to search for institutions with specific types of OER events. Alternatively, click the buttons below to search by other options. </p>
+<p style="padding-top: 10px">
+    <button class="activity-button"><a href="/directory">Institutions</a></button>
+    <button class="activity-button"><a href="{% url 'filter_programs' %}">Programs</a></button>
+    <button class="activity-button"><a href="{% url 'filter_policies' %}">Policies</a></button>
+    <button class="activity-button"><a href="{% url 'filter_resources' %}">Resources</a></button>
+    {#<button class="activity-button"><a href="{% url 'filter_abstracts' %}">Languages</a></button>#}
+</p>
+<hr>
+<br>
+
+<form method="get">
+
+    <details open="open">
+
+    <summary>OER Event Type</summary>
+
+      <div class="form-row">
+        {% render_field filter.form.event_type class="form-control" %}
+      </div>
+
+    </details>
+
+    <br>
+    
+    <ul class="search-results">
+    {% if request.GET %}
+        {% for filteritem in filter.qs %}
+        <li><a href="{% url 'institution_public' filteritem.institution_id %}">{{ filteritem.name }} ({{ filteritem.institution }})</a></li>
+        {% empty %}
+        <li>No matching results found</li>
+        {% endfor %}
+    {% endif %}
+    </ul>
+    
+    <br>
+
+    <button type="submit" class="filter-button"><span class="glyphicon glyphicon-search"></span>Search</button>
+    <button class="filter-button"><a href="{% url 'filter_events' %}">Start Over</a></button>
+
+</form>
+
+{% endblock %}

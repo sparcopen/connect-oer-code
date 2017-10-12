@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {# https://code.djangoproject.com/ticket/14597 -> https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header #}
+
+    <h1>Creating New {{ access_link.type_normalized }} </h1>
+    
+    <div class="red-line"></div>
+
+    <h3><a href="{{ access_link.get_absolute_url }}"><button class="submit-button" style="margin-top: 20px; font-size: 27px; font-weight: normal; text-transform: capitalize;">Start Now</button></a></h3><br>
+
+    <p><h3>Or, have someone else fill it out...</h3></p>
+
+    <p>Our system makes it possible for you to share access to this specific form with another person on your campus. This feature may be useful if you would like to invite additional collaborators to add and maintain specific pieces of your campus profile without granting them full access to your Administrative Home Page.</p>
+    <p>To take advantage of this feature, simply copy and paste the one-time access link below and send it to the person you would like to fill out the form. The link will remain active for 7 days. Once the form is successfully completed, a permanent link will be provided where the form can be updated in the future. Entries created through one-time access links will appear in your Administrative Home Page once submitted. 
+    </p>
+    <p><strong>One-time access link: <br><a href="{{ access_link.get_absolute_url }}" target="_blank">{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{{ access_link.get_absolute_url }}</a></p></strong> 
+
+    <p>For more information about access links and how to work with collaborators on campus, visit our <a href="https://sparcopen.org/our-work/connect-oer/faq" target="_blank">FAQ</a>.
+    
+    {# #todo -- check if expiration time is indeed 7 days #}
+
+{% comment %}
+    <div class="verticalgap" style="height:20px"></div>
+
+    <h2>Personalize the link</h2>
+    <p>
+        If you're going to share this link with somebody else, you can <a href="{% url 'access_edit' access_link.access_uuid %}">add a personalized message</a> for the recipient that will appear at the top of the form.
+    </p>
+{% endcomment %}
+
+{% endblock %}

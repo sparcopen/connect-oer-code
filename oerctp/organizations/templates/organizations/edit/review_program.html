@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h2>You are reviewing {{ object }}</h2>
+    <table>
+        {% if object.name %}
+        <tr>
+            <th>Name</th>
+            <td>{{ object.name }}</td>
+        </tr>
+        {% endif %}
+        {% if object.type_clean %}
+        <tr>
+            <th>Type</th>
+            <td>{{ object.type_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.abstract %}
+        <tr>
+            <th>Abstract</th>
+            <td>{{ object.abstract }}</td>
+        </tr>
+        {% endif %}
+        {% if object.home_clean %}
+        <tr>
+            <th>Home</th>
+            <td>{{ object.home_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.partners_clean %}
+        <tr>
+            <th>Partners</th>
+            <td>{{ object.partners_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.scope_clean %}
+        <tr>
+            <th>Scope</th>
+            <td>{{ object.scope_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_adaptation_clean %}
+        <tr>
+            <th>strategy_adaptation</th>
+            <td>{{ object.strategy_adaptation_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_adoption_clean %}
+        <tr>
+            <th>strategy_adoption</th>
+            <td>{{ object.strategy_adoption_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_awareness_clean %}
+        <tr>
+            <th>strategy_awareness</th>
+            <td>{{ object.strategy_awareness_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_curation_clean %}
+        <tr>
+            <th>strategy_curation</th>
+            <td>{{ object.strategy_curation_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_pedagogy_clean %}
+        <tr>
+            <th>strategy_pedagogy</th>
+            <td>{{ object.strategy_pedagogy_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_publication_clean %}
+        <tr>
+            <th>strategy_publication</th>
+            <td>{{ object.strategy_publication_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_review_clean %}
+        <tr>
+            <th>strategy_review</th>
+            <td>{{ object.strategy_review_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.strategy_research_clean %}
+        <tr>
+            <th>strategy_research</th>
+            <td>{{ object.strategy_research_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.program_date_start %}
+        <tr>
+            <th>program_date_start</th>
+            <td>{{ object.program_date_start }}</td>
+        </tr>
+        {% endif %}
+        {% if object.program_date_end %}
+        <tr>
+            <th>program_date_end</th>
+            <td>{{ object.program_date_end }}</td>
+        </tr>
+        {% endif %}
+        {% if object.funding_source_clean %}
+        <tr>
+            <th>funding_source</th>
+            <td>{{ object.funding_source_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.funding_library_clean %}
+        <tr>
+            <th>funding_library</th>
+            <td>{{ object.funding_library_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.funding_total %}
+        <tr>
+            <th>funding_total</th>
+            <td>{{ object.funding_total }}</td>
+        </tr>
+        {% endif %}
+        {% if object.savings_total %}
+        <tr>
+            <th>savings_total</th>
+            <td>{{ object.savings_total }}</td>
+        </tr>
+        {% endif %}
+        {% if object.financial_sustainability_clean %}
+        <tr>
+            <th>financial_sustainability</th>
+            <td>{{ object.financial_sustainability_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.incentives_clean %}
+        <tr>
+            <th>incentives</th>
+            <td>{{ object.incentives_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.grant_funding %}
+        <tr>
+            <th>grant_funding</th>
+            <td>{{ object.grant_funding }}</td>
+        </tr>
+        {% endif %}
+        {% if object.grant_number %}
+        <tr>
+            <th>grant_number</th>
+            <td>{{ object.grant_number }}</td>
+        </tr>
+        {% endif %}
+        {% if object.grant_typical %}
+        <tr>
+            <th>grant_typical</th>
+            <td>{{ object.grant_typical }}</td>
+        </tr>
+        {% endif %}
+        {% if object.incentives_conditions_clean %}
+        <tr>
+            <th>incentives_conditions</th>
+            <td>{{ object.incentives_conditions_clean }}</td>
+        </tr>
+        {% endif %}
+        {% if object.url_program %}
+        <tr>
+            <th>url_program</th>
+            <td>{{ object.url_program }}</td>
+        </tr>
+        {% endif %}
+        {% if object.url_mou %}
+        <tr>
+            <th>url_mou</th>
+            <td>{{ object.url_mou }}</td>
+        </tr>
+        {% endif %}
+        {% if object.url_assess %}
+        <tr>
+            <th>url_assess</th>
+            <td>{{ object.url_assess }}</td>
+        </tr>
+        {% endif %}
+        {% if object.url_job %}
+        <tr>
+            <th>url_job</th>
+            <td>{{ object.url_job }}</td>
+        </tr>
+        {% endif %}
+        {% if object.url_other %}
+        <tr>
+            <th>url_other</th>
+            <td>{{ object.url_other }}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <hr>
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button>Submit</button>
+    </form>
+
+{% endblock %}

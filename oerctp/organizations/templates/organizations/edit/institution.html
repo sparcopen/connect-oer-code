@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Administrative Home Page</h1>
+    <div class="red-line"></div>
+    <h2>{{ object.name }}</h2>
+    <p>Welcome to <a href="https://sparcopen.org/our-work/connect-oer/" target="_blank"></a>Connect OER</a>, a platform to share and discover information about OER activities at campuses across North America. This is your institution's administrative home page. You can return here anytime you would like to add or update information about your institution’s OER activities.</p>
+    <p>The information we collect is divided into three parts listed below. Once you submit information, it will be reviewed by one of our staff people then published on your institution's public directory page. You can hide specific objects from the public directory by clicking the "Hide" button. For more details, see our <a href="https://sparcopen.org/our-work/connect-oer/faq" target="_blank">FAQ</a>.</p>
+    <div class="verticalgap" style="height:35px"></div>
+
+    <h3>Part 1: Institutional Profile</h3>
+    <p>Your institutional profile collects basic information about the state of OER at your institution, so that others can find you in the directory. This profile asks you to provide a narrative description of your institution’s OER activities, designate a campus point of contact, and answer about 15 multiple choice questions about your campus. It may take as long as 20-25 minutes to fill out the first time, but will be much faster in the future since you will only need to update information that has changed. Please note that you must complete an Institutional Profile to be listed in the directory.</p>
+
+    {% include 'organizations/table.html' with object_list=profile_table %}
+
+    <div class="verticalgap" style="height:35px"></div>
+
+    <h3>Part 2: Campus Activities</h3>
+    <p>This section allows you to list the specific OER activities happening at your institution. The four categories of activity are Projects, Policies, Events, and Resources. The activities you enter will be searchable in the directory and displayed on your institution’s directory page.</p>
+
+    {% include 'organizations/table.html' with object_list=activities %}
+    <p><a href="{% url 'new_activity' object.access_uuid %}" target="_blank"><strong><button class="red-button">Add New Activity</button></strong></a></p>
+
+    <div class="verticalgap" style="height:30px"></div>
+
+    <h3>Part 3: Annual Impact Report</h3>
+    <p>Annual Impact Reports collect basic metrics about OER use and progress on campus. The purpose of these reports is to track the impact of OER over time, both on your campus and nationwide. These reports are intended to be updated frequently as you gather more information about your campus, both during the current year and for past years. Before beginning, we strongly recommend reading the <a href="https://sparcopen.org/our-work/connect-oer/faq#impactreport" target="_blank">Annual Impact Report FAQ</a>.</p>
+
+    {% include 'organizations/table.html' with object_list=object.annual_reports.all %}
+    <p><a href="{% url 'add_access' object.access_uuid 'impact-report' %}" target="_blank"><strong><button class="red-button">Add New Report</button></strong></a></p>
+   
+    <div class="verticalgap" style="height:30px"></div>
+
+    <h3>Additional Features</h3>
+    
+    <div class="verticalgap" style="height:10px"></div>
+
+    <h4>Additional Languages</h4>
+    <p>This optional function allows you to provide additional narrative descriptions of your institution’s OER activities in languages other than English. You may add as many additional languages as you wish, and each will be linked in your institution directory page.</p>
+
+    {% include 'organizations/table.html' with object_list=object.additional_languages.all %}
+    <p><a href="{% url 'add_access' object.access_uuid 'language' %}" target="_blank"><strong><button class="red-button">Add New Language</button></strong></a></p>
+ 
+    <div class="verticalgap" style="height:25px"></div>
+
+    <h4>Affiliated Tags</h4>
+    <p>Affiliated Tags include memberships, systems, programs and other entities related to your institution. These tags are added automatically based on information in our database.</p>
+
+    <table class="table">
+    {% for tag in object.tags.all %}
+        <tr>
+            <td><a href="{% url 'tag' tag.slug %}" target="_blank">{{ tag.name }}</a></td>
+            <td>{{ tag.type }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+    <div class="verticalgap" style="height:25px"></div>
+
+    <h4>Access Links</h4>
+    <p>Access Links are created automatically when you create a new report, activity or language, and expire automatically after 7 days if they are not used. You can find a list of currently active access links <a href="{% url 'access_links' object.access_uuid %} " target="_blank">here</a>.</p>
+
+
+{% endblock %}

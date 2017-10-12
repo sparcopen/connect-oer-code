@@ -1,0 +1,300 @@
+<h1>Program for {{ object.institution }}</h1>
+<div class="red-line"></div>
+<p>
+    Complete this form to create or edit information about an OER program at your institution. Programs may include projects, initiatives, or other organized efforts on your campus that relate to OER. Common types of programs include OER mini-grant programs, pilot programs, campaigns, or publishing efforts. This category is also the best place to list a task force, committee or staff position. Programs may be past or present.<br>
+</p>
+<p>
+    When you click submit, you will receive a link where you may return to edit this form in the future. To create additional entries for activities at your institution, return to your institutional homepage or contact your local Point of Contact.<br>
+</p>
+<p>
+    <strong>How this information will be used:</strong> The purpose of this project is to create a public directory about institutional activities on OER. As such, the information you enter will be shared publicly through the directory (except for email addresses and where otherwise marked), and released under a <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0 Public Domain Dedication</a> to maximize the reusability of the project’s dataset. You will be asked to confirm these terms before submitting this form. Please ensure you fully understand how your information will be used and shared by reviewing our <a href="https://sparcopen.org/our-work/connect-oer/faq/#sharing" target="_blank">FAQ</a> before proceeding.
+</p>
+<p>
+    This form will take approximately 15 minutes to complete.
+</p>
+
+<hr>
+
+<form action="." method="post">
+    {% csrf_token %}
+    <div class="form-row"><strong>1.</strong>
+        {{ form.name.label_tag }}<br>
+        {{ form.name.help_text }}<br>
+        {{ form.name }}
+        {{ form.name.errors }}
+    </div>
+
+    <div class="form-row"><strong>2.</strong>
+        {{ form.type.label_tag }}<br>
+        {{ form.type.help_text }}<br>
+        {{ form.type }}
+        {{ form.type.errors }}
+    </div>
+
+    <div class="form-row"><strong>3.</strong>
+        {{ form.abstract.label_tag }}<br>
+        {{ form.abstract.help_text }}<br>
+        {{ form.abstract }}
+        {{ form.abstract.errors }}
+    </div>
+
+    <h3>Program Details</h3>
+
+    <div class="form-row"><strong>4.</strong>
+        {{ form.home.label_tag }}<br>
+        {{ form.home.help_text }}<br>
+        {{ form.home }}
+        {{ form.home.errors }}
+    </div>
+
+    <div class="form-row"><strong>5.</strong>
+        {{ form.partners.label_tag }}<br>
+        {{ form.partners.help_text }}<br>
+        {{ form.partners }}
+        {{ form.partners.errors }}
+    </div>
+
+    <div class="form-row"><strong>6.</strong>
+        {{ form.scope.label_tag }}<br>
+        {{ form.scope.help_text }}<br>
+        {{ form.scope }}
+        {{ form.scope.errors }}
+    </div>
+<div class="form-text">
+    <p><strong>7. Program Strategy:</strong><br>
+    For each of the following options, please select whether it is a Primary focus, Secondary focus, or not a major focus of the program with respect to OER. Only one option may be selected as Primary, but you may select multiple as Secondary.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Primary</th>
+                <th>Secondary</th>
+                <th>N/A</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+{# #todo -- check if table code is proper html (missing td element?) #}
+        <tbody>
+            <tr>
+                <th>{{ form.strategy_adaptation.label_tag }}</th>
+                {{ form.strategy_adaptation }}
+                <td>{{ form.strategy_adaptation.help_text }}</td>
+                <td>{{ form.strategy_adaptation.errors }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.strategy_adoption.label_tag }}</th>
+                {{ form.strategy_adoption }}
+                <td>{{ form.strategy_adoption.help_text }}</td>
+                <td>{{ form.strategy_adoption.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_awareness.label_tag }}</th>
+                {{ form.strategy_awareness }}
+                <td>{{ form.strategy_awareness.help_text }}</td>
+                <td>{{ form.strategy_awareness.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_curation.label_tag }}</th>
+                {{ form.strategy_curation }}
+                <td>{{ form.strategy_curation.help_text }}</td>
+                <td>{{ form.strategy_curation.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_pedagogy.label_tag }}</th>
+                {{ form.strategy_pedagogy }}
+                <td>{{ form.strategy_pedagogy.help_text }}</td>
+                <td>{{ form.strategy_pedagogy.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_publication.label_tag }}</th>
+                {{ form.strategy_publication }}
+                <td>{{ form.strategy_publication.help_text }}</td>
+                <td>{{ form.strategy_publication.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_review.label_tag }}</th>
+                {{ form.strategy_review }}
+                <td>{{ form.strategy_review.help_text }}</td>
+                <td>{{ form.strategy_review.errors }}</td>
+            </tr>
+
+            <tr>
+                <th>{{ form.strategy_research.label_tag }}</th>
+                {{ form.strategy_research }}
+                <td>{{ form.strategy_research.help_text }}</td>
+                <td>{{ form.strategy_research.errors }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <p>&nbsp;</p>
+
+    <div class="form-row"><strong>8.</strong>
+        {{ form.program_date_start.label_tag }}<br>
+        {{ form.program_date_start.help_text }}<br>
+        {{ form.program_date_start }}
+        {{ form.program_date_start.errors }}
+    </div>
+
+    <div class="form-row"><strong>9.</strong>
+        {{ form.program_date_end.label_tag }}<br>
+        {{ form.program_date_end.help_text }}<br>
+        {{ form.program_date_end }}
+        {{ form.program_date_end.errors }}
+    </div>
+
+    <h3>Program Funding</h3>
+
+    <div class="form-row"><strong>10.</strong>
+        {{ form.funding_source.label_tag }}<br>
+        {{ form.funding_source.help_text }}<br>
+        {{ form.funding_source }}
+        {{ form.funding_source.errors }}
+    </div>
+
+    <div class="form-row"><strong>11.</strong>
+        {{ form.funding_library.label_tag }}<br>
+        {{ form.funding_library.help_text }}<br>
+        {{ form.funding_library }}
+        {{ form.funding_library.errors }}
+    </div>
+
+    <div class="form-row"><strong>12.</strong>
+        {{ form.funding_total.label_tag }}<br>
+        {{ form.funding_total.help_text }}<br>
+        {{ form.funding_total }}
+        {{ form.funding_total.errors }}
+    </div>
+
+    <div class="form-row"><strong>13.</strong>
+        {{ form.savings_total.label_tag }}<br>
+        {{ form.savings_total.help_text }}<br>
+        {{ form.savings_total }}
+        {{ form.savings_total.errors }}
+    </div>
+
+    <div class="form-row"><strong>14.</strong>
+        {{ form.financial_sustainability.label_tag }}<br>
+        {{ form.financial_sustainability.help_text }}<br>
+        {{ form.financial_sustainability }}
+        {{ form.financial_sustainability.errors }}
+    </div>
+
+    <h3>Program Incentives</h3>
+
+    <div class="form-row"><strong>15.</strong>
+        {{ form.incentives.label_tag }}<br>
+        {{ form.incentives.help_text }}<br>
+        {{ form.incentives }}
+        {{ form.incentives.errors }}
+    </div>
+    <div class="form-text">
+    <p><strong>16. If the program offers grants, stipends or other financial incentives, please provide the following figures. Otherwise please leave this question blank.</strong></p>
+    </div>
+    <div class="form-link">
+    <div class="form-row">a.
+        {{ form.grant_funding.label_tag }}<br>
+        {{ form.grant_funding.help_text }}<!--<br>-->
+        {{ form.grant_funding }}
+        {{ form.grant_funding.errors }}
+    </div>
+
+    <div class="form-row">b.
+        {{ form.grant_number.label_tag }}<br>
+        {{ form.grant_number.help_text }}<!--<br>-->
+        {{ form.grant_number }}
+        {{ form.grant_number.errors }}
+    </div>
+
+    <div class="form-row">c.
+        {{ form.grant_typical.label_tag }}<br>
+        {{ form.grant_typical.help_text }}<!--<br>-->
+        {{ form.grant_typical }}
+        {{ form.grant_typical.errors }}
+    </div>
+    </div>
+    <div class="form-row"><strong>17.</strong>
+        {{ form.incentives_conditions.label_tag }}<br>
+        {{ form.incentives_conditions.help_text }}<br>
+        {{ form.incentives_conditions }}
+        {{ form.incentives_conditions.errors }}
+    </div>
+
+    <h3>Links to Program Resources</h3>
+
+    <p><strong>
+        18. Please fill in at least one of the boxes below with a URL about the program.</strong>
+    </p>
+    <p>
+        You may fill in as many as are relevant, though only one link is permitted per box. Please include the “http” or “https” prefix.
+    </p>
+
+    <div class="form-row"><strong>a.</strong>
+        {{ form.url_program.label_tag }}<br>
+        {{ form.url_program.help_text }}<!--<br>-->
+        {{ form.url_program }}
+        {{ form.url_program.errors }}
+    </div>
+
+    <div class="form-row"><strong>b.</strong>
+        {{ form.url_mou.label_tag }}<br>
+        {{ form.url_mou.help_text }}<!--<br>-->
+        {{ form.url_mou }}
+        {{ form.url_mou.errors }}
+    </div>
+
+    <div class="form-row"><strong>c.</strong>
+        {{ form.url_assess.label_tag }}<br>
+        {{ form.url_assess.help_text }}<!--<br>-->
+        {{ form.url_assess }}
+        {{ form.url_assess.errors }}
+    </div>
+
+    <div class="form-row"><strong>d.</strong>
+        {{ form.url_job.label_tag }}<br>
+        {{ form.url_job.help_text }}<!--<br>-->
+        {{ form.url_job }}
+        {{ form.url_job.errors }}
+    </div>
+
+    <div class="form-row"><strong>e.</strong>
+        {{ form.url_other.label_tag }}<br>
+        {{ form.url_other.help_text }}<!--<br>-->
+        {{ form.url_other }}
+        {{ form.url_other.errors }}
+    </div>
+
+    <h3>Last Step</h3>
+
+    <div class="form-row">
+        {{ form.private_comments.label_tag }}<br>
+        {{ form.private_comments.help_text }}<br>
+        {{ form.private_comments }}
+        {{ form.private_comments.errors }}
+    </div>
+
+    <div class="form-row">
+        {{ form.filled_in_by.label_tag }}<br>
+        {{ form.filled_in_by.help_text }}<br>
+        {{ form.filled_in_by }}
+        {{ form.filled_in_by.errors }}
+    </div>
+
+    <div class="form-row">
+        {{ form.acknowledgments.label_tag }}<br>
+        {{ form.acknowledgments.help_text }}<br><br>
+        {{ form.acknowledgments }} <strong>&nbsp;I agree</strong>
+        {{ form.acknowledgments.errors }}
+    </div>
+
+    <hr>
+    <button class="submit-button">Submit</button>
+</form>

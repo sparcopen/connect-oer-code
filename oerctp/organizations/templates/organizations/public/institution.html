@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+
+{% load markdown_helper %}
+
+{% block title %}Connect OER - {{ object.name }} - SPARC{% endblock title %}
+
+{% block content %}
+
+{# https://docs.google.com/document/d/1rt7VqZZWPvQsC5Dzp72Uozg9-T7wZ7dN4G5U7zycysI/edit #}
+{% if object.profile.reviewed %}
+
+    
+    {% if object.profile.twitter_image_displayed and object.profile.twitter_image_url %}
+    <p><a href="{{ object.profile.institution_twitter_url }}" target="_blank"><img src="{{ object.profile.twitter_image_url }}" class="logo" align="right" height=220 width=220 style="margin-left: 15px; margin-top: 20px;" alt="{{ object.name }} logo"></a></p>
+    {% endif %}
+
+    <h1>{{ object.name }}</h1>
+
+    <div class="red-line"></div>
+
+    <p>
+        {# {{ object.profile.address }}, {{ object.profile.city }}, {{ object.profile.state_province }}, {{ object.profile.zip }}, {{ object.profile.country }}<br>#}
+        <strong>{{ object.profile.city }}, {{ object.profile.state_province }}, {{ object.profile.country }}</strong><br>
+        <a href="{{ object.profile.main_url }}" target="_blank">Official Website</a> {#{{ object.profile.institution_website }}#}
+        {% if object.profile.institution_twitter %} • <a href="{{ object.profile.institution_twitter_url }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> @{{ object.profile.institution_twitter_username }}</a>{% endif %}
+    </p>
+
+    <p>
+        {% if object.profile.type %}Type: {{ object.profile.type }}<br>{% endif %}
+        {% if object.profile.enrollment_normalized %}Annual Enrollment: {{ object.profile.enrollment_normalized }}<br>{% endif %}
+
+        {% if object.profile.sparc_member %}<p><span class="sparc-member">&nbsp;&nbsp;<strong>SPARC Member</strong>&nbsp;&nbsp;</span></p>{% endif %}
+
+        {% if object.profile.url_oer %}<a href="{{ object.profile.url_oer }}" target="_blank">OER Webpage</a><br>{% endif %}
+        {% if object.profile.url_libguide %}<a href="{{ object.profile.url_libguide }}" target="_blank">OER LibGuide</a>{% endif %}
+        <hr>
+    </p>
+
+    {% if object.profile.overview %}
+        <h2>Overview</h2>
+        <p>
+            {{ object.profile.overview | markdown_to_html }}
+        </p>
+    {% endif %}
+    
+    {% if object.additional_languages.all %}
+        <p><strong>Other Languages: </strong>
+        {# #todo -- consider sorting the list of languages -- dictsort? #}
+        {% for abstract in object.additional_languages.all %}
+            {% if forloop.last %}
+                <a href="{% url 'institution_public_abstract' object.id abstract.slug %}" target="_blank">{{ abstract.name }}</a>
+            {% else %}
+                <a href="{% url 'institution_public_abstract' object.id abstract.slug %}" target="_blank">{{ abstract.name }}</a> |
+            {% endif %}
+        {% endfor %}
+        </p>
+        <hr>
+    {% endif %}
+
+    <details class="details-profile" style="margin-top: 20px">
+
+    <summary>Campus Details</summary>
+
+    {% if object.profile.campus_engagement_directorypage %}
+        <p><strong>Campus Entities Most Active in Efforts Advancing OER</strong>:</p>
+        <ul>
+        {% for item in object.profile.campus_engagement_directorypage %}
+            <li>
+                {{ item }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if object.profile.library_engagement_directorypage %}
+        <p><strong>Library Departments Active in Efforts Advancing OER</strong>:</p>
+        <ul>
+        {% for item in object.profile.library_engagement_directorypage %}
+            <li>
+                {{ item }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if object.profile.subject_engagement_directorypage %}
+        <p><strong>Academic Subjects With Greatest OER Traction</strong>:</p>
+        <ul>
+        {% for item in object.profile.subject_engagement_directorypage %}
+            <li>
+                {{ item }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if object.profile.oer_included_directorypage %}
+        <p><strong>Mechanisms to Support OER Included in the Following</strong>:</p>
+        <ul>
+        {% for item in object.profile.oer_included_directorypage %}
+            <li>
+                {{ item }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if object.profile.staff_location_directorypage %}
+        <p><strong>OER Staff Location</strong>:</p>
+        <ul>
+        {% for item in object.profile.staff_location_directorypage %}
+            <li>
+                {{ item }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    </details>
+    
+    {% if object.tags.all %}
+    <details class="details-profile">
+        <summary>Tags</summary>
+        <ul class="search-results">
+        {% for tag in object.tags.all %}
+            <li><a href="{% url 'tag' tag.slug %}" target="_blank">{{ tag.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </details>
+    {% endif %}
+    
+    <hr>
+    <br>
+
+    {% if object.program_set.all %}
+        <h3 class="profile-header">OER Programs</h3>
+        {% for program in object.program_set.all %}
+            {% if program.reviewed %}
+                <details class="details-profile">
+                    <summary>{{ program.name }}</summary>
+
+                    {% if program.abstract %}<p class="details-abstract">{{ program.abstract | markdown_to_html }}</p>{% endif %}
+                    {% if program.type_directorypage %}<p><strong>Program Type</strong>: {{ program.type_directorypage }}</p>{% endif %}
+                    {% if program.program_date_start %}<p><strong>Duration</strong>: {{ program.program_date_start }} - {{ program.program_date_end | default:"Present" }}</p>{% endif %}
+                    {% if program.url_program %}<p><strong>Program Webpage</strong>: <a href="{{ program.url_program }}" target="_blank">{{ program.url_program }}</a></p>{% endif %}
+                    {% if program.scope_directorypage %}<p><strong>Scope</strong>: {{ program.scope_directorypage }}</p>{% endif %}
+                    {% if program.strategy_primary_directorypage %}<p><strong>Primary OER Strategy</strong>: {{ program.strategy_primary_directorypage }}</p>{% endif %}
+                    {% if program.strategy_secondary_directorypage %}<p><strong>Secondary OER Strategies</strong>: {{ program.strategy_secondary_directorypage }}</p>{% endif %}
+                    {% if program.home_directorypage %}<p><strong>Unit Housing the Program</strong>:</p><ul>{{ program.home_directorypage }}</ul>{% endif %}
+
+                    {% if program.partners_directorypage %}
+                        <p><strong>Program Partners</strong>:</p>
+                        <ul>
+                        {% for item in program.partners_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {# #fyi -- #multiwidget:checkboxes #}
+                    {% if program.funding_source_directorypage %}
+                        <p><strong>Source of Program Funding</strong>:</p>
+                        <ul>
+                        {% for item in program.funding_source_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if program.funding_library_directorypage %}
+                        <p><strong>Funding from Library Departments</strong>:</p>
+                        <ul>
+                        {% for item in program.funding_library_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if program.funding_total_directorypage %}<p><strong>Total Program Funding to Date</strong>: {{ program.funding_total_directorypage }}</p>{% endif %}
+                    {% if program.savings_total_directorypage %}<p><strong>Total Student Savings to Date</strong>: {{ program.savings_total_directorypage }}</p>{% endif %}
+
+                    {# #fyi -- #multiwidget:checkboxes #}
+                    {% if program.incentives_directorypage %}
+                        <p><strong>Incentives Offered by the Program</strong>:</p>
+                        <ul>
+                        {% for item in program.incentives_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if program.incentives_conditions_directorypage %}<p><strong>Conditions</strong>: {{ program.incentives_conditions_directorypage }}</p>{% endif %}
+
+                    {% if program.grant_funding_directorypage %}<p><strong>Total amount of incentive grants awarded to date</strong>: {{ program.grant_funding_directorypage }}</p>{% endif %}
+                    {% if program.grant_number_directorypage %}<p><strong>Total number of incentive grants awarded to date</strong>: {{ program.grant_number_directorypage }}</p>{% endif %}
+                    {% if program.grant_typical_directorypage %}<p><strong>Typical amount of each grant</strong>: {{ program.grant_typical_directorypage }}</p>{% endif %}
+
+                    {% if program.url_mou or program.url_assess or program.url_job or program.url_other %}
+                        <p><strong>Links</strong>:<br>
+                            {% if program.url_mou %}<a href="{{ program.url_mou }}" target="_blank">MOU for Participants</a><br>{% endif %}
+                            {% if program.url_assess %}<a href="{{ program.url_assess }}" target="_blank">Assessment Instrument</a><br>{% endif %}
+                            {% if program.url_job %}<a href="{{ program.url_job }}" target="_blank">Job Description</a><br>{% endif %}
+                            {% if program.url_other %}<a href="{{ program.url_other }}" target="_blank">Other Resource</a>{% endif %}
+                        </p>
+                    {% else %}
+                        {# no links found #}
+                    {% endif %}
+
+                    {# #todo -- Tags: // List all tags if applicable. #}
+
+                </details>
+            {% else %}
+                <details>
+                    <summary>Pending review: Open Education Initiative {{ program.name }}</summary>
+                    <p>This item is pending review. Please check back later or <a href="https://sparcopen.org/our-work/connect-oer/faq/#contact" target="_blank">contact us</a>.</p>
+                </details>
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% else %}
+        {# ...no programs found... #}
+    {% endif %}
+
+    {% if object.policy_set.all %}
+        <h3 class="profile-header">OER Policies</h3>
+        {% for policy in object.policy_set.all %}
+            {% if policy.reviewed %}
+                <details class="details-profile">
+                    <summary>{{ policy.name }}</summary>
+                    {% if policy.policy_abstract %}<p class="details-abstract">{{ policy.policy_abstract | markdown_to_html }}</p>{% endif %}
+                    
+                    {% if policy.policy_date_start %}<p><strong>Duration</strong>: {{ policy.policy_date_start }} - {{ policy.policy_date_end | default:"Present" }}</p>{% endif %}
+                    {% if policy.policy_type_directorypage %}<p><strong>Policy Type</strong>: {{ policy.policy_type_directorypage }}</p>{% endif %}
+                    {% if policy.scope_directorypage %}<p><strong>Policy Scope</strong>: {{ policy.scope_directorypage }}</p>{% endif %}
+                    {% if policy.policy_level_directorypage %}<p><strong>Governance Level</strong>: {{ policy.policy_level_directorypage }}</p>{% endif %}
+
+                    {% if policy.url_text or policy.url_description or policy.url_announcement or policy.url_report %}
+                        <p><strong>Links</strong>:<br>
+                            {% if policy.url_text %}<a href="{{ policy.url_text }}" target="_blank">Policy Text</a><br>{% endif %}
+                            {% if policy.url_description %}<a href="{{ policy.url_description }}" target="_blank">Description</a><br>{% endif %}
+                            {% if policy.url_announcement %}<a href="{{ policy.url_announcement }}" target="_blank">Announcement</a><br>{% endif %}
+                            {% if policy.url_report %}<a href="{{ policy.url_report }}" target="_blank">Progress Report</a>{% endif %}
+                        </p>
+                    {% else %}
+                        {# no links found #}
+                    {% endif %}
+
+                    {# #todo -- Tags: // List all tags if applicable. #}
+
+                </details>
+            {% else %}
+                <details>
+                    <summary>Pending review: {{ policy.name }}</summary>
+                    <p>This item is pending review. Please check back later or <a href="https://sparcopen.org/our-work/connect-oer/faq/#contact" target="_blank">contact us</a>.</p>
+                </details>
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% else %}
+        {# ...no policies found... #}
+    {% endif %}
+
+    {% if object.event_set.all %}
+        <h3 class="profile-header">OER Events</h3>
+        {% for event in object.event_set.all %}
+            {% if event.reviewed %}
+                <details class="details-profile">
+                    <summary>{{ event.name }}</summary>
+
+                        {% if event.abstract %}<p class="details-abstract">{{ event.abstract | markdown_to_html }}</p>{% endif %}
+
+                        {% if event.date_start %}
+                            <p>
+                                <strong>Date</strong>: {{ event.date_start }}
+                                    {% if event.date_end %}
+                                        - {{ event.date_end }}
+                                    {% else %}
+                                        {# display nothing #}
+                                    {% endif %}
+                            </p>
+                        {% endif %}
+
+                        {# #fyi -- #multiwidget:radio #}
+                        {% if event.type_directorypage %}<p><strong>Event Type</strong>: {{ event.type_directorypage }}</p>{% endif %}
+
+                        {% if event.scope_directorypage %}<p><strong>Scope</strong>: {{ event.scope_directorypage }} </p>{% endif %}
+                        {% if event.attendees_directorypage %}<p><strong>Approximate Attendees</strong>: {{ event.attendees_directorypage }}</p>{% endif %}
+                        {% if event.hashtag %}<p><strong>Event Hashtag</strong>: {{ event.hashtag }}</p>{% endif %}
+
+                        {% if event.url_summary or event.url_promo or event.url_recording or event.url_slides or event.url_photos or event.url_news %}
+                            <p><strong>Links</strong>:<br>
+                                {% if event.url_summary %}<a href="{{ event.url_summary }}" target="_blank">Event Summary</a><br>{% endif %}
+                                {% if event.url_promo %}<a href="{{ event.url_promo }}" target="_blank">Promotional Material</a><br>{% endif %}
+                                {% if event.url_recording %}<a href="{{ event.url_recording }}" target="_blank">Recording</a><br>{% endif %}
+                                {% if event.url_slides %}<a href="{{ event.url_slides }}" target="_blank">Slides</a><br>{% endif %}
+                                {% if event.url_photos %}<a href="{{ event.url_photos }}" target="_blank">Photos</a><br>{% endif %}
+                                {% if event.url_news %}<a href="{{ event.url_news }}" target="_blank">News Coverage</a>{% endif %}
+                            </p>
+                        {% else %}
+                            {# no links found #}
+                        {% endif %}
+
+                    {# #todo -- Tags: // List all tags if applicable. #}
+
+                </details>
+            {% else %}
+                <details>
+                    <summary>Pending review: {{ event.name }}</summary>
+                    <p>This item is pending review. Please check back later or <a href="https://sparcopen.org/our-work/connect-oer/faq/#contact" target="_blank">contact us</a>.</p>
+                </details>
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% else %}
+        {# ...no events found... #}
+    {% endif %}
+
+    {% if object.resource_set.all %}
+        <h3 class="profile-header">OER Resources</h3>
+        {% for resource in object.resource_set.all %}
+            {% if resource.reviewed %}
+                <details class="details-profile">
+                    <summary>{{ resource.name }}</summary>
+
+                    {# https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#date #}
+
+                    {% if resource.url %}<p><button class="filter-button" style="margin-bottom: 5px;"><a href="{{ resource.url }}" target="_blank">Go To Resource</a></button></p>{% endif %}
+
+                    {% if resource.abstract %}<p class="details-abstract">{{ resource.abstract | markdown_to_html }}</p>{% endif %}
+
+                    {% if object.resource.type_directorypage %}
+                        <p>Resource Type:</p>
+                        <ul>
+                        {% for item in object.resource.type_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {# #fyi -- #multiwidget:radio #}
+                    {% if resource.license_directorypage %}<p><strong>Resource Permissions</strong>:<br>{{ resource.license_directorypage }}</p>{% endif %}
+
+                    {% if object.resource.audience_directorypage %}
+                        <p>Resource's Intended Audience:</p>
+                        <ul>
+                        {% for item in object.resource.audience_directorypage %}
+                            <li>
+                                {{ item }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    {% if resource.date %}<p>{{ resource.date | date:"F Y" }}</p>{% endif %}
+
+                    {% if resource.citation %}<p><strong>Resource Citation</strong>:<br>{{ resource.citation }}</p>{% endif %}
+
+                    {# #todo -- Tags: // List all tags if applicable. #}
+
+                </details>
+            {% else %}
+                <details>
+                    <summary>Pending review: {{ resource.name }}</summary>
+                    <p>This item is pending review. Please check back later or <a href="https://sparcopen.org/our-work/connect-oer/faq/#contact" target="_blank">contact us</a>.</p>
+                </details>
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% else %}
+        {# ...no resources found... #}
+    {% endif %}
+
+    {% comment %}
+    #todo -- add tags:
+
+    Tags
+        Systems [all system tags, display only if there is at least 1 tag] e.g. Massachusetts University System
+        Affiliations [all membership tags, display only if there is at least 1 tag] e.g. SPARC, Open Textbook Network, Open Education Consortium
+        Projects [all project tags, display only if there is at least 1 tag] e.g. Achieving the Dream OER Initiative,
+        People [all people tags, display only if there is at least 1 tag] e.g. Marilyn Billings
+    {% endcomment %}
+
+
+    {% if object.profile.poc_visible and object.profile.poc_name %}
+        <br>
+        <h3 class="profile-header">Point of Contact</h3>
+        <p>
+            {% if object.profile.poc_name %}
+                {% if object.profile.poc_url %}
+                    <a href="{{ object.profile.poc_url }}" target="_blank">{{ object.profile.poc_name }}</a>
+                {% else %}
+                    {{ object.profile.poc_name }}
+                {% endif %}
+            <br>
+            {% endif %}
+            {% if object.profile.poc_job %}
+            {{ object.profile.poc_job }}
+            <br>
+            {% endif %}
+            {% if object.profile.poc_twitter %}
+                <a href="{{ object.profile.poc_twitter_url }}"><i class="fa fa-twitter" aria-hidden="true"></i> @{{ object.profile.poc_twitter_username }}</a>
+            {% endif %}
+        </p>
+
+        {# #todo -- Click here to send a message to this institution's point of contact. (links out to contact form that sends a message to [poc_email], or any other manner of sending a message to the person without disclosing their e-mail address) #}
+
+    {% endif %}
+
+{% else %}
+    <h1>Pending review</h1>
+    <p>
+        This institution exists in our database but its profile is pending review. Please check back later or <a href="https://sparcopen.org/our-work/connect-oer/faq/#contact">contact us</a>.
+    </p>
+{% endif %}
+
+{% endblock %}

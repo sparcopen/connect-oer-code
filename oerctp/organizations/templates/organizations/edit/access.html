@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{#  <h1>You are now adding {{ object.object_type }} for {{ object.institution }}</h1> #}
+
+    {# #todo -- move styles to CSS #}
+    {% if object.text %}
+        <div class="oerctp-personalized-message" style="background-color: #ffffcc; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom; 5px;">
+            <p><strong>Personalized message for you:</strong> {{ object.text }}</p>
+        </div>
+    {% endif %}
+
+    {% if form_template_path %}
+        {% include form_template_path %}
+    {% else %}
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button>Submit</button>
+        </form>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <p><strong>The following institutional profiles have been submitted and reviewed.</strong><br>Display them by clicking the links below:</p>
+
+    <ul>
+        {% for institution in institutions_on_homepage %}
+            {# #todo -- change from hard-coded URL to reverse() or similar #}
+            <li><a href="{% url 'institution_public' institution.id %}">{{ institution.name }}</a></li>
+        {% empty %}
+            <li>No institutions meet the selected criteria (filled out profile, which has been reviewed and is not hidden).</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h2>You are reviewing {{ object }}</h2>
+    {# todo: show other data from object #}
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button>Submit</button>
+    </form>
+
+{% endblock %}

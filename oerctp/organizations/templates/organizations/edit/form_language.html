@@ -1,0 +1,57 @@
+<h1>Language for {{ object.institution }}</h1>
+<div class="red-line"></div>
+
+<p>
+    If you would like to add a description of your institution's OER efforts in a language other than English, please do so below. This might be a translation of the English abstract you provided in your Institutional Profile plus any additional details. If you wish to add links or formatting to your abstract, you may do so using Markdown syntax. Please carefully test your text using a Markdown editor such as <a href="http://markdown.pioul.fr/">http://markdown.pioul.fr/</a> before saving your text. Maximum 3000 characters (approx. 500 words).
+</p>
+<p>
+    When you click submit, you will receive a link where you may return to edit this form in the future. To create additional entries for activities at your institution, return to your institutional homepage or contact your local Point of Contact.</br>
+</p>
+<p>
+    <strong>How this information will be used:</strong> The purpose of this project is to create a public directory about institutional activities on OER. As such, the information you enter will be shared publicly through the directory (except for email addresses and where otherwise marked), and released under a <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0 Public Domain Dedication</a> to maximize the reusability of the project's dataset. You will be asked to confirm these terms before submitting this form. Please ensure you fully understand how your information will be used and shared by reviewing our <a href="https://sparcopen.org/our-work/connect-oer/faq/#sharing" target="_blank">FAQ</a> before proceeding.
+</p>
+
+<hr>
+
+<form action="." method="post">
+    {% csrf_token %}
+    <div class="form-row"><strong>1.</strong>
+        {{ form.abstract_raw.label_tag }}<br>
+        {{ form.abstract_raw.help_text }}<br>
+        {{ form.abstract_raw }}
+        {{ form.abstract_raw.errors }}
+    </div>
+
+    <div class="form-row"><strong>2.</strong>
+        {{ form.language.label_tag }}<br>
+        {{ form.language.help_text }}<br>
+        {{ form.language }}
+        {{ form.language.errors }}
+    </div>
+
+    <h3>Last Step</h3>
+
+    <div class="form-row">
+        {{ form.private_comments.label_tag }}<br>
+        {{ form.private_comments.help_text }}<br>
+        {{ form.private_comments }}
+        {{ form.private_comments.errors }}
+    </div>
+
+    <div class="form-row">
+        {{ form.filled_in_by.label_tag }}<br>
+        {{ form.filled_in_by.help_text }}<br>
+        {{ form.filled_in_by }}
+        {{ form.filled_in_by.errors }}
+    </div>
+
+    <div class="form-row">
+        {{ form.acknowledgments.label_tag }}<br>
+        {{ form.acknowledgments.help_text }}<br><br>
+        {{ form.acknowledgments }} <strong>&nbsp;I agree</strong>
+        {{ form.acknowledgments.errors }}
+    </div>
+
+        <hr>
+    <button class="submit-button">Submit</button>
+</form>

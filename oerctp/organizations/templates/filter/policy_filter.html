@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<h1>Search for OER Policies</h1>
+
+<p>Connect OER is a platform to share and discover information about OER activities at campuses across North America. Use the tools below to search for institutions with specific types of OER policies. Alternatively, click the buttons below to search by other options. </p>
+<p style="padding-top: 10px">
+    <button class="activity-button"><a href="/directory">Institutions</a></button>
+    <button class="activity-button"><a href="{% url 'filter_programs' %}">Programs</a></button>
+    <button class="activity-button"><a href="{% url 'filter_events' %}">Events</a></button>
+    <button class="activity-button"><a href="{% url 'filter_resources' %}">Resources</a></button>
+    {#<button class="activity-button"><a href="{% url 'filter_abstracts' %}">Languages</a></button>#}
+</p>
+<hr>
+<br>
+
+<form method="get">
+
+    <details open="open">
+
+    <summary>Search Options</summary>
+
+      <div class="form-row">
+        {{ filter.form.policy_type.label_tag }}
+        {% render_field filter.form.policy_type class="form-control" %}
+      </div>
+
+      <div class="form-row">
+        {{ filter.form.policy_level.label_tag }}
+        {% render_field filter.form.policy_level class="form-control" %}
+      </div>
+
+    </details>
+
+    <br>
+    
+    {% if request.GET %}
+        <ul class="search-results">
+        {% for filteritem in filter.qs %}
+        <li><a href="{% url 'institution_public' filteritem.institution_id %}">{{ filteritem.name }} ({{ filteritem.institution }})</a></li>
+        {% empty %}
+        <li>No matching results found</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <br>
+
+    <button type="submit" class="filter-button"><span class="glyphicon glyphicon-search"></span>Search</button>
+    <button class="filter-button"><a href="{% url 'filter_policies' %}">Start Over</a></button>
+
+</form>
+
+
+
+{% endblock %}

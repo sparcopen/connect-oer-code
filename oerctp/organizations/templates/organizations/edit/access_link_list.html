@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Active One-Time Access Links</h1>
+    <div class="red-line"></div>
+
+    <p>
+    One-time access links are created automatically when you create a new report, activity or language. You can use these links to allow another person on campus to complete a specific form, without giving them access to your whole account. One-time access links expire after 7 days or once the form has been submitted. For more information, see our <a href="https://sparcopen.org/our-work/connect-oer/faq/" target="_blank>FAQ</a>.
+    </p>
+    {% if object_list %}
+        <form method="post" action=".">
+            {% csrf_token %}
+            <table>
+            {% for obj in object_list %}
+                <tr>
+                    <td>
+                        <input type="checkbox" id="delete_{{ forloop.counter }}" value="{{ obj.id }}" name="_selected_items">
+                    </td>
+                    <td>
+                        <label for="delete_{{ forloop.counter }}">{{ obj.object_type }}</label>
+                    </td>
+                    <td>
+                        <a href="{{ obj.get_absolute_url }}">{{ obj.get_absolute_url }}</a>
+                    </td>
+                    <td>
+                        {{ obj.created_at }}
+                    </td>
+                    <td>
+                        {% if obj.text %}
+                            {{ obj.text }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+            <input type="submit" value="Remove selected links">
+        </form>
+    {% else %}
+        <p>No active access links found.</p>
+    {% endif %}
+
+{% endblock %}
